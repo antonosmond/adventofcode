@@ -35,10 +35,31 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	windows := createSlidingWindows(in, 3)
+	increases := countIncreases(windows)
+	fmt.Printf("Result: %d\n", increases)
+}
+
+func createSlidingWindows(in []int, windowSize int) []int {
+	windows := []int{}
+	for start, _ := range in {
+		sum := 0
+		end := start + windowSize
+		for end > len(in) {
+			end--
+		}
+		for _, ii := range in[start:end] {
+			sum += ii
+		}
+		windows = append(windows, sum)
+	}
+	return windows
+}
+
+func countIncreases(in []int) int {
 	depth := 0
 	count := 0
 	for idx, i := range in {
-		// only check for increase if this is NOT the first value
 		if idx != 0 {
 			if i > depth {
 				count++
@@ -46,5 +67,5 @@ func main() {
 		}
 		depth = i
 	}
-	fmt.Println(count)
+	return count
 }
