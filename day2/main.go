@@ -6,8 +6,9 @@ import (
 )
 
 type Location struct {
-	Horizontal int
+	Aim        int
 	Depth      int
+	Horizontal int
 }
 
 func (l *Location) Total() int {
@@ -21,15 +22,16 @@ func main() {
 }
 
 func sail(in []input.Command) *Location {
-	loc := &Location{0, 0}
+	loc := &Location{0, 0, 0}
 	for _, i := range in {
 		switch i.Action {
 		case "forward":
 			loc.Horizontal += i.Value
+			loc.Depth += (i.Value * loc.Aim)
 		case "up":
-			loc.Depth -= i.Value
+			loc.Aim -= i.Value
 		case "down":
-			loc.Depth += i.Value
+			loc.Aim += i.Value
 		}
 	}
 	return loc
