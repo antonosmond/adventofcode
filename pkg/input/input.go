@@ -47,6 +47,10 @@ func Load() Inputs {
 	return inputs
 }
 
+func (in Inputs) ToString() []string {
+	return in
+}
+
 func (in Inputs) ToInt() []int {
 	out := []int{}
 	for _, s := range in {
