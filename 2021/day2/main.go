@@ -3,7 +3,14 @@ package main
 import (
 	"adventofcode/pkg/input"
 	"fmt"
+	"strconv"
+	"strings"
 )
+
+type Command struct {
+	Action string
+	Value  int
+}
 
 type Location struct {
 	Aim        int
@@ -16,12 +23,13 @@ func (l *Location) Total() int {
 }
 
 func main() {
-	in := input.Load().ToCommands()
-	location := sail(in)
+	in := input.Load()
+	commands := toCommands(in)
+	location := sail(commands)
 	fmt.Println(location.Total())
 }
 
-func sail(in []input.Command) *Location {
+func sail(in []Command) *Location {
 	loc := &Location{0, 0, 0}
 	for _, i := range in {
 		switch i.Action {
@@ -35,4 +43,20 @@ func sail(in []input.Command) *Location {
 		}
 	}
 	return loc
+}
+
+func toCommands(in []string) []Command {
+	commands := []Command{}
+	for _, s := range in {
+		parts := strings.Split(s, " ")
+		value, err := strconv.Atoi(parts[1])
+		if err != nil {
+			panic(err)
+		}
+		commands = append(commands, Command{
+			Action: parts[0],
+			Value:  value,
+		})
+	}
+	return commands
 }

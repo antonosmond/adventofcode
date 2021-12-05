@@ -3,11 +3,13 @@ package main
 import (
 	"adventofcode/pkg/input"
 	"fmt"
+	"strconv"
 )
 
 func main() {
-	in := input.Load().ToInt()
-	windows := createSlidingWindows(in, 3)
+	in := input.Load()
+	ints := toInt(in)
+	windows := createSlidingWindows(ints, 3)
 	result := countIncreases(windows)
 	fmt.Println(result)
 }
@@ -40,4 +42,16 @@ func countIncreases(in []int) int {
 		depth = i
 	}
 	return count
+}
+
+func toInt(in []string) []int {
+	out := []int{}
+	for _, s := range in {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			panic(err)
+		}
+		out = append(out, i)
+	}
+	return out
 }
